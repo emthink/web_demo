@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA_Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width">
+	<title>Mobile Tap</title>
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+		}
+		.wrapper {
+			width: 100%;
+		}
+		.button {
+			padding: 10px;
+			background: #ff3000;
+			color: #fff;
+			font-size: 16px;
+			font-weight: bold;
+			border: 0;
+			border-radius: 10px;
+			box-shadow: inset 0 1px 3px #fff, 0 1px 2px #000;
+		}
+		.active {
+			box-shadow: inset 0 1px 3px #000, 0 1px 2px #fff;
+		}
+		.picture {
+			width: 100%;
+			display: none;
+		}
+		.picture img{
+			width: 100%;
+			height: 256px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<button class="button" id="toggle-tap">tap切换显示</button>
+		<div class="picture">
+			<p>触摸可以切换图片显示或隐藏</p>
+			<a href="">
+				<img src="" alt="">
+			</a>
+		</div>
+	</div>
+	<script>
+		//自执行函数
+		;(function(window) {
+			
+			var TapEventPro;
+			var TOUCHSTART;
+			var TOUCHEND;
+			
+			//标准touch触摸事件
+			if (typeof window.ontouchstart !== 'undefined') {
+				TOUCHSTART = 'touchstart';
+				TOUCHEND = 'touchend';
+			}else if (typeof window.onmspointerdowm != 'undefined') {
+				TOUCHSTART = 'MSPointerDown';
+				TOUCHEND = 'MSPointerUp';
+			}else {
+				TOUCHSTART = 'mousedown';
+				TOUCHEND = 'mouseup';
+			}
+
+			function TapEvent(ele) {
+				this.ele = ele;
+			}
+
+			TapEventPro = TapEvent.prototype;
+			TapEventPro.on = function(eventType, callback) {
+				if (eventType === 'tap') {
+					this.ele.addEventListener(TOUCHSTART, callback);
+				}else if (eventType === 'tapend') {
+					this.ele.addEventListener(TOUCHEND, callback);
+				}else {
+					this.ele.addEventListener(eventType, callback);
+				}
+
+				//链式调用
+				return this;
+			};
+
+			TapEventPro.off = function(eventType, callback) {
+				if (eventType === 'tap') {
+					this.ele.removeEventListener(TOUCHSTART, callback);
+				}else if (eventType === 'tapend') {
+					this.ele.removeEventListener(TOUCHEND, callback);
+				}else {
+					this.ele.removeEventListener(eventType, callback);
+				}
+
+				return this;
+			};
+
+			window.$ = function(selector) {
+				var ele = document.querySelector(selector);
+
+				if (ele) {
+					return new TapEvent(ele);
+				}else {
+					return null;
+				}
+			};
+		})(window);
+
+		window.onload = function() {
+			var picWrapper = document.querySelector('.picture');
+
+			function togglePicture() {
+				var displayState = picWrapper.style.display;
+				if (displayState === 'none' || !displayState) {
+					picWrapper.style.display = 'block';
+				}else {
+					picWrapper.style.display = 'none';
+				}
+			}
+
+			$('#toggle-tap').on('tap', function(event) {
+				event.preventDefault();
+				event.target.className = 'active button';
+				togglePicture();
+			});
+			$('#toggle-tap').on('tapend', function(event) {
+				event.target.className = 'button';
+			});
+		};
+	</script>
+</body>
+</html>

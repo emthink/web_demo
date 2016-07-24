@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA_Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scaleble=no">
+	<title>轻触实例</title>
+	<style>
+		html, body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+		}
+		.wrapper {
+			width: 100%;
+		}
+		.button {
+			padding: 10px;
+			background: #ff3000;
+			color: #fff;
+			font-size: 16px;
+			font-weight: bold;
+			border: 0;
+			border-radius: 10px;
+			box-shadow: inset 0 1px 3px #fff, 0 1px 2px #000;
+		}
+		.active {
+			box-shadow: inset 0 1px 3px #000, 0 1px 2px #fff;
+		}
+		.picture {
+			width: 100%;
+			display: none;
+		}
+		.picture img{
+			width: 100%;
+			height: 256px;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<button class="button" id="toggle-touch">touch切换显示</button>
+		<button class="button" id="toggle-click">click切换显示</button>
+		<div class="picture">
+			<p>触摸可以切换图片显示或隐藏</p>
+			<a href="">
+				<img src="" alt="">
+			</a>
+		</div>
+	</div>
+	<script>
+		window.onload = function() {
+			var togglePicBtn = document.getElementById('toggle-touch');
+			var togglePicBtn2 = document.getElementById('toggle-click');
+			var picWrapper = document.querySelector('.picture');
+			function togglePicture() {
+				console.log(picWrapper.style.display);
+				var displayState = picWrapper.style.display;
+				if (displayState === 'none' || !displayState) {
+					picWrapper.style.display = 'block';
+				}else {
+					picWrapper.style.display = 'none';
+				}
+			}
+
+			togglePicBtn.addEventListener('touchstart', function(event) {
+				event.preventDefault();
+				event.target.className = 'active button';
+				togglePicture();
+			});
+
+			togglePicBtn.addEventListener('touchend', function(event) {
+				event.preventDefault();
+				event.target.className = 'button';
+			});
+			
+			togglePicBtn2.addEventListener('click', function(event) {
+				event.preventDefault();
+				togglePicture();
+			});
+		};
+	</script>
+</body>
+</html>
