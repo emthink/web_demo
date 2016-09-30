@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>文本两端对齐 by hongchenok</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            img {
+                width: 70%;
+            }
+            html, body {
+                width: 100%;
+                height: 100%;
+                text-align: center;
+            }
+            .wrap, .flex-wrap {
+                width: 80%;
+                max-width: 300px;
+                margin: 30px auto;
+            }
+            .wrap ul {
+                list-style: none;
+            }
+            .list {
+                width: 100%;
+                /*height: 90px;*/
+                background: #f0f0f9;
+                font-size: 0;
+                text-align: justify;
+                text-justify:distribute-all-lines;/* ie6-8 */
+            }
+            .item {
+                width: 60px;
+                height: 90px;
+                display: inline-block;
+                *display: inline;/* ie */
+                *zoom: 1;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box; /* Firefox */
+                -webkit-box-sizing: border-box; /* Safari */
+                border: 1px solid lightblue;
+            }
+            .align-top {
+                vertical-align: top;// bottom/middle
+            }
+            .item p {
+                font-size: 16px;
+            }
+            .vertical-fix::after {
+                content: ".";
+                display: inline-block;
+                height: 0;
+                font-size: 0;
+                clear: both;
+                visibility: hidden;
+            }
+            .justify-fix {
+                width: 100%;
+                height: 0;
+                display: inline-block;
+                *display: inline;
+                *zoom: 1;
+                visibility: hidden;
+            }
+            .flex-wrap ul {
+                list-style: none;
+            }
+            .flex-list {
+                width: 100%;
+                background: #f0f0f9;
+                display: -moz-box;
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: -moz-flex;
+                display: -ms-flexbox;
+                display: -ms-flex;
+                display: flex;
+                -webkit-box-pack: justify;
+                -moz-box-pack: justify;
+                -ms-flex-pack: justify;
+                -webkit-justify-content: space-between;
+                -moz-justify-content: space-between;
+                -ms-justify-content: space-between;
+                justify-content: space-between;
+            }
+            .flex-item {
+                width: 60px;
+                height: 90px;
+                display: block;
+                *display: inline;/* ie */
+                *zoom: 1;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box; /* Firefox */
+                -webkit-box-sizing: border-box; /* Safari */
+                border: 1px solid lightblue;
+            }
+            .percent-list {
+                width: 100%;
+                background: #f0f0f9;
+                list-style: none;
+                font-size: 0;
+            }
+            .percent-item {
+                display: inline-block;
+                width: 30%;
+                height: 90px;
+                margin-right: 5%;
+                border: 1px solid lightblue;
+                box-sizing: border-box; /* 削去border边框宽度的影响 */
+                -moz-box-sizing: border-box; /* Firefox */
+                -webkit-box-sizing: border-box; /* Safari */
+            }
+        </style>
+
+    </head>
+    <body>
+        <h2>多种方式实现两端对齐布局</h2>
+        <div class="wrap">
+            <h3>普通列表（vertical-align: baseline;默认值）</h3>
+            <ul class="list">
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>1</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>2</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>3</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>4</p><p>5</p></li>
+                <!-- <li class="justify-fix"></li> -->
+            </ul>
+        </div>
+        <hr>
+        <div class="wrap">
+            <h3>百分比实现两端对齐布局</h3>
+            <ul class="percent-list">
+            	<li class="percent-item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /></li>
+            	<li class="percent-item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /></li>
+            	<li class="percent-item" style="margin-right: 0;"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /></li>
+            </ul>
+        </div>
+        <hr>
+        <div class="flex-wrap">
+            <h3>Flex两端对齐列表</h3>
+            <ul class="flex-list">
+                <li class="flex-item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>1</p></li>
+                <li class="flex-item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>2</p></li>
+                <li class="flex-item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>3</p></li>
+                <li class="flex-item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>4</p><p>5</p></li>
+            </ul>
+        </div>
+        <hr>
+        <div class="wrap">
+            <h3>文字两端对齐效果</h3>
+            <p>默认是文字居中，如何实现文字两端对齐效果，这是个问题？</p>
+            <p style="text-align: justify;">如何实现文字两端对齐效果，这是个问题？</p>
+        </div>
+        <hr>
+        <div class="wrap">
+            <h3>justify下列表</h3>
+            <ul class="list">
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>1</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>2</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>3</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>4</p><p>5</p></li>
+            </ul>
+        </div>
+        <hr>
+        <div class="wrap">
+            <h3>justify两端对齐列表-v1（vertical-align: baseline;默认值）</h3>
+            <ul class="list">
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>1</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>2</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>3</p></li>
+                <li class="item"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>4</p><p>5</p></li>
+                <li class="justify-fix"></li>
+            </ul>
+        </div>
+        <hr>
+        <div class="wrap">
+            <h3>justify两端对齐列表-v2（使用vertical-align: top/bottom/middle;）</h3>
+            <ul class="list">
+                <li class="item align-top"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>1</p></li>
+                <li class="item align-top"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>2</p></li>
+                <li class="item align-top"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>3</p></li>
+                <li class="item align-top"><img src="http://blog.codingplayboy.com/wp-content/uploads/2016/06/cropped-profile-180x180.jpg" /><p>4</p><p>5</p></li>
+                <li class="justify-fix"></li>
+            </ul>
+        </div>
+
+    </body>
+</html>
