@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iframe</title>
+</head>
+<body>
+    <h1>Iframe Sandbox</h1>
+    <form action="/ta" method="post" >
+        <input type="text" />
+        <input type="submit" value="Submit" />
+        <a href="http://blog.codingplayboy.com" target="_top">GoTo</a>
+    </form>
+    <script type="text/javascript">
+        (function() {
+            var p = window.parent;
+            var w = p.document.location;
+            console.log(w);
+        })();
+    </script>
+
+</body>
+</html>
