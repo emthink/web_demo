@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>Margin Collapse</title>
+	<style>
+		p {
+	        margin-top: 30px;
+	        margin-bottom: 50px;
+	    }
+	     .left {
+            float: left;
+        }
+	</style>
+</head>
+<body>
+	<p>看我的margin-bottom:50px;</p>
+    <p>看我的margin-top:30px.</p>
+    <br>
+    <p>看我的margin-bottom:50px;</p>
+    <p style="margin-top: -20px;">看我的margin-top:30px.</p>
+    <br>
+    <p>看我的margin-bottom:50px;</p>
+    <p class="left">看我的margin-top:30px.</p>
+    <br>
+</body>
+</html>
