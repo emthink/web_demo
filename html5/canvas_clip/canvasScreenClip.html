@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>Screen Clip</title>
+	<link rel="stylesheet" href="styles/screenShot.css">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.go-top {
+			position: fixed;
+			top: 10px;
+			right: 10px;
+			z-index: 1999;
+			width: 60px;
+			height: 30px;
+		}
+		.wrapper {
+			width: 100%;
+			height: auto;
+			min-height: 60px;
+			box-sizing: border-box;
+			background-color: blue;
+			border: 1px solid #ccc;
+		}
+		form {
+			height: 100px;
+		}
+		input {
+			display: inline-block;
+			height: 30px;
+		}
+	</style>
+</head>
+<body>
+	<div class="go-top">GoTop</div>
+	<h1>HTML5 canvas截图</h1>
+	<div class="wrapper">
+		<p>内容</p>
+	</div>
+	<form action="">
+		<input type="button" id="createImageData" value="Export Canvas Image" />
+		<input type="button" id="saveImageData" value="保存截图" />
+	</form>
+	<canvas id="canvas" crossorigin="Anonymous" style="display: none;" width="200" height="200"></canvas>
+	<script>
+		var _html = document.documentElement.innerHTML;
+		var doc = document.implementation.createHTMLDocument("");
+
+		// You must manually set the xmlns if you intend to immediately serialize 
+		// the HTML document to a string as opposed to appending it to a 
+		// <foreignObject> in the DOM
+		doc.documentElement.setAttribute("xmlns", doc.documentElement.namespaceURI);
+		doc.documentElement.innerHTML = _html;
+
+		// Get well-formed markup
+		var html = (new XMLSerializer).serializeToString(doc.documentElement);
+		console.log(html);
+	</script>
+	<script>
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		var data = '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">' +
+		           '<foreignObject width="100%" height="100%">' +
+		           html +
+		           '</foreignObject>' +
+		           '</svg>';
+		var DOMURL = window.URL || window.webkitURL || window;
+		var img = new Image();
+		var svg = new Blob([data], {type: 'image/svg+xml'});
+		var url = DOMURL.createObjectURL(svg);
+		var createElement = document.getElementById('createImageData');
+		var saveElement = document.getElementById('saveImageData');
+
+		img.onload = function () {
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+		    ctx.drawImage(img, 0, 0);
+		    DOMURL.revokeObjectURL(url); // 回收URL
+		    canvas.style.display = 'block';
+		}
+
+		createElement.addEventListener('click', createImageDataPressed, false);
+		saveElement.addEventListener('click', saveAsLocalImage, false);
+
+		function createImageDataPressed(e) {
+		    img.src = url;
+		    //document.body.appendChild(img);
+			window.open(canvas.toDataURL("image/png"), "canvasImage", "left=0,top=0,width=" + canvas.width + ",height=" + canvas.height + ", toolbar=0,resizable=0");
+		} 
+		function saveAsLocalImage() {
+
+            // here is the most important part because if you dont replace you will get a DOM 18 exception.
+            var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream;Content-Disposition: attachment;filename=test.png");
+            // var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            window.location.href = image;
+        }
+	</script>
+</body>
+</html>
