@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Transform</title>
+    <style media="screen">
+        @-webkit-keyframes bag-sport{
+            0% {-webkit-transform: translate3d(0, 0, 0);}
+            40% {-webkit-transform: translate3d(0, 100px, 0);}
+            70% {-webkit-transform: translate3d(0, 50px, 0);}
+            82% {-webkit-transform: translate3d(0, 40px, 0);}
+            95% {-webkit-transform: translate3d(0, 20px, 0);}
+            100% {-webkit-transform: translate3d(0, 10px, 0);}
+        }
+        @keyframes bag-sport{
+            0% {transform: translate3d(0, 0, 0);}
+            40% {transform: translate3d(0, 100px, 0);}
+            70% {transform: translate3d(0, 50px, 0);}
+            82% {transform: translate3d(0, 40px, 0);}
+            95% {transform: translate3d(0, 20px, 0);}
+            100% {transform: translate3d(0, 10px, 0);}
+        }
+        .bag {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1999;
+            width: 100px;
+            height: 60px;
+            border: 1px solid #ccc;
+            /*animation: bag-sport 2s ease-in forwards;*/
+        }
+    </style>
+</head>
+<body>
+    <div class="bag">sport</div>
+    <script type="text/javascript">
+        ;(function() {
+            var eleStyle = document.createElement('div').style;
+            var transformVerdors = ['t', 'webkitT', 'MozT', 'OT', 'msT'];
+            var verdors = ['a', 'webkitA', 'MozA', 'OA', 'msA'];
+            var endEvents = ['animationend', 'webkitAnimationEnd', 'animationend', 'oAnimationEnd', 'MSAnimationEnd'];
+            var animation;
+            var ANIMATION;
+            var ANIMATIONEND;
+            var transform;
+            var TRANSFORM;
+
+            (function() {
+                for (var i = 0, len = verdors.length; i < len; i++) {
+                    animation = verdors[i] + 'nimation';
+                    if (animation in eleStyle) {
+                        ANIMATION = animation;
+                        ANIMATIONEND = endEvents[i];
+                    }
+                }
+            })();
+            (function() {
+                for (var j = 0, len = transformVerdors.length; j < len; j++) {
+                    transform = transformVerdors[j] + 'ransform';
+                    if (transform in eleStyle) {
+                        TRANSFORM = transform;
+                    }
+                }
+            })();
+            var bag = document.querySelector('.bag');
+            function redBagBounce() {
+                // 红包弹动结束后bottom值
+                var redBagBottom = 101;
+                var speed = 500;
+                var initHeight = window.innerHeight - redBagBottom;
+                var sportHeightArr = [0, initHeight, initHeight - 60, initHeight - 30, initHeight - 10, initHeight];
+                var time;
+                var style;
+                var bagRule;
+                var coordTarget = {
+                    x: 200,
+                    y: 200
+                };
+
+                if (!style) {
+                    style = document.documentElement.appendChild(document.createElement("style"));
+                }
+
+                if (TRANSFORM === 'webkitTransform') {
+                    logoRule = "@-webkit-keyframes logo-sport{" +
+                        "0% {-webkit-transform: translate3d(0px, 0, 0) scale(1, 1);}" +
+                        "50% {-webkit-transform: translate3d(0px, 50px, 0) scale(1, 1);}" +
+                        "66% {-webkit-transform: translate3d(50px, 50px, 0) scale(1, 1);}" +
+                        "100%{-webkit-transform: translate3d(" + coordTarget.x + "px, " + coordTarget.y + "px, 0) scale(0.5, 0.5);}}";
+                }else {
+                    logoRule = "@keyframes logo-sport{" +
+                        "0% {transform: translate3d(0px, 0, 0) scale(1, 1);}" +
+                        "50% {transform: translate3d(0px, 50px, 0) scale(1, 1);}" +
+                        "66% {transform: translate3d(50px, 50px, 0) scale(1, 1);}" +
+                        "100%{transform: translate3d(" + coordTarget.x + "px, " + coordTarget.y + "px, 0) scale(0.5, 0.5);}}";
+                }
+
+                // if (TRANSFORM === 'webkitTransform') {
+                //     bagRule = "@-webkit-keyframes red-bag-sport{" +
+                //         "0% {-webkit-transform: translate3d(0px, 0, 0);}" +
+                //         "40% {-webkit-transform: translate3d(0, " + sportHeightArr[1] + "px, 0);}" +
+                //         "70% {-webkit-transform: translate3d(0, " + sportHeightArr[2] + "px, 0);}" +
+                //         "82% {-webkit-transform: translate3d(0, " + sportHeightArr[3] + "px, 0);}" +
+                //         "95% {-webkit-transform: translate3d(0, " + sportHeightArr[4] + "px, 0);}" +
+                //         "100% {-webkit-transform: translate3d(0, " + sportHeightArr[5] + "px, 0);}}";
+                // } else {
+                //     bagRule = "@keyframes red-bag-sport{" +
+                //         "0% {transform: translate3d(0, 0, 0);}" +
+                //         "40% {transform: translate3d(0, " + sportHeightArr[1] + "px, 0);}" +
+                //         "70% {transform: translate3d(0, " + sportHeightArr[2] + "px, 0);}" +
+                //         "82% {transform: translate3d(0, " + sportHeightArr[3] + "px, 0);}" +
+                //         "95% {transform: translate3d(0, " + sportHeightArr[4] + "px, 0);}" +
+                //         "100% {transform: translate3d(0, " + sportHeightArr[5] + "px, 0);}}" ;
+                // }
+
+                try{
+                    style.sheet.insertRule(logoRule, style.sheet.rules.length);
+                }catch(error){
+                    console.log(error);
+                }
+
+                time = initHeight / speed;
+
+                // setTimeout(function() {
+                    bag.style[ANIMATION] = "logo-sport " + time + "s ease-in forwards";
+                // }, 100);
+            }
+            redBagBounce();
+        })();
+    </script>
+</body>
+</html>

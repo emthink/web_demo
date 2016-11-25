@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Transition Sport</title>
+    <style>
+        .wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 999;
+        }
+        .car {
+            position: absolute;
+            bottom: 100px;
+            left: 0px;
+            z-index: 1001;
+            width: 100px;
+            height: 60px;
+            background-color: red;
+            border: 1px solid #ccc;
+            transition: bottom 0.3s ease-out, left 0.3s ease-out;
+        }
+
+    </style>
+</head>
+<body>
+    <button type="button" name="button" class="car-one-btn">1车运动</button>
+    <div class="wrapper">
+        <div class="car">1车</div>
+    </div>
+    <script type="text/javascript">
+        ;(function() {
+            var car = document.querySelector('.car');
+            var sportOne = document.querySelector('.car-one-btn');
+            sportOne.addEventListener('click', function() {
+                var carStyle = car.style;
+                carStyle.left = '200px';
+                carStyle.bottom = '10px';
+            });
+        })();
+    </script>
+</body>
+</html>
