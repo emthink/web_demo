@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>CSS3 Animation 动画</title>
+	<style>
+		@-webkit-keyframes bounce {
+			0% {
+				top: 10px;
+				left: 10px;
+			}
+			50% {
+				top: 50px;
+				left: 50px;
+			}
+			100% {
+				top: 150px;
+				left: 150px;
+			}
+		}
+		@keyframes bounce {
+			0% {
+				top: 10px;
+				left: 10px;
+			}
+			50% {
+				top: 50px;
+				left: 50px;
+			}
+			100% {
+				top: 150px;
+				left: 150px;
+			}
+		}
+		.car {
+			position: fixed;
+			top: 10px;
+			left: 10px;
+			z-index: 999;
+			width: 60px;
+			height: 60px;
+			background-color: red;
+			opacity: 1;
+			border: 1px solid #ccc;
+			border-radius: 30px;
+			-webkit-animation: bounce 2s linear infinite 1s alternate;
+			animation: bounce 2s linear infinite 1s alternate;
+		}
+	</style>
+</head>
+<body>
+	<div class="car"></div>
+</body>
+</html>
