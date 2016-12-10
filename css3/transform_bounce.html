@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>CSS3 transform 小球弹动动画</title>
+	<style>
+		@-webkit-keyframes bounce {
+			0% {
+				-webkit-transform: translate(0, 30px);
+				-webkit-animation-timing-function: cubic-bezier(1, 0, 0.96, 0.91);
+			}
+			50% {
+				-webkit-transform: translate(0, 300px);
+				-webkit-animation-timing-function: cubic-bezier(0, 0.27, 0.32, 1);
+			}
+			100% {
+				-webkit-transform: translate(0, 30px);
+				-webkit-animation-timing-function: cubic-bezier(0, 0.27, 0.32, 1);
+			}
+		}
+		@keyframes bounce {
+			0% {
+				transform: translate(0, 30px);
+				animation-timing-function: cubic-bezier(1, 0, 0.96, 0.91);
+			}
+			50% {
+				transform: translate(0, 300px);
+				animation-timing-function: cubic-bezier(0, 0.27, 0.32, 1);
+			}
+			100% {
+				transform: translate(0, 30px);
+				animation-timing-function: cubic-bezier(0, 0.27, 0.32, 1);
+			}
+		}
+		.ball {
+			position: fixed;
+			top: 10px;
+			left: 10px;
+			z-index: 999;
+			width: 60px;
+			height: 60px;
+			background-color: red;
+			border: 1px solid #ccc;
+			border-radius: 30px;
+			-webkit-animation: bounce 3s infinite;
+			animation: bounce 3s infinite;
+		}
+	</style>
+</head>
+<body>
+	<div class="ball"></div>
+</body>
+</html>

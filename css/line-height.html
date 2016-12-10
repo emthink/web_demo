@@ -9,6 +9,14 @@
 			margin: 0;
 			padding: 0;
 		}
+		div {
+			text-align: center;
+			box-sizing: border-box;
+		}
+		p {
+			margin: 0 auto;
+			width: 200px;
+		}
 		.wrap {
 			border: 1px solid #aaa;
 			font-size: 14px;
@@ -58,32 +66,20 @@
 	<div class="wrap">
 		font-size: 14px;<br />
 		line-height: 1;
-		<p>看看我的行高。<span>我是子级span</span></p>
+		<p>font-size: 24px;看看我的行高。<span>font-size: 20px;我是子级span</span></p>
 		length and percentage line-height have poor inheritance behavior.
 	</div>
 	<div class="percent-wrap">
 		font-size: 14px;<br />
 		line-height: 100%;
-		<p>看看我的行高。<span>我是子级span</span></p>
+		<p>font-size: 24px;看看我的行高。<span>font-size: 20px;我是子级span</span></p>
 		length and percentage line-height have poor inheritance behavior.
 	</div>
 	<div class="length-wrap">
 		font-size: 14px;<br />
 		line-height: 16px;
-		<p>看看我的行高。<span>我是子级span</span></p>
+		<p>font-size: 24px;看看我的行高。<span>font-size: 20px;我是子级span</span></p>
 		length and percentage line-height have poor inheritance behavior.
-	</div>
-	<div>我是第一个匿名块盒的内容<p>我是块级盒子的内容</p>我是第二个匿名块盒的内容</div>
-	<br />
-	<p style="display: inline;">我是第一个匿名块盒的内容 <span style="display: block;">我是块级盒子的内容</span>我是第二个匿名块盒的内容</p>
-	<br />
-	<br />
-	<div style="width:18em;">
-	   对于非原子行内级盒 <span style="display: inline;color: red;">我的内容可以被拆分成多行</span> 因为这里的span是inline行内盒.
-	</div>
-	<br />
-	<div style="width:18em;">
-	   对于原子行内级盒 <span style="display: inline-block;color: red;">我的内容不可以被拆分成多行</span> 因为这里的span是inline-block行内级盒.
 	</div>
 </body>
 </html>

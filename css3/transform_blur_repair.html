@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>CSS3 transform 2d变换与3d变换对比</title>
+	<style>
+		body {
+			text-align: center;
+		}
+		div {
+			width: 100px;
+			height: 50px;
+			margin: 50px 0 20px 0;
+			background: url('http://blog.codingplayboy.com/wp-content/uploads/2016/11/boxdim.png') no-repeat 0 0;
+			background-size: 100%;
+			border: 4px solid rgba(0,0,0,.5);
+			text-align: center;
+		}
+		.origin {
+			-webkit-transform: scale(3, 3);
+			transform: scale(3, 3);
+		}
+	</style>
+</head>
+<body>
+	<h1>CSS3 transform 3D变换净化</h1>
+	<div class="origin"></div>
+	<br><br><br>
+	<div class="after"></div>
+	<script>
+		;(function() {
+			var TRANSFORM = 'transform';
+			var TRANSITION = 'transition';
+			var TRANSITIONEND = 'transitionend';
+			var transform_pro = 'transform';
+			var after = document.querySelector('.after');
+
+			//事件注册兼容
+			window.EventHandler = function () {
+		        if (window.addEventListener) {
+		            EventHandler = function(ele, type, callback, bubble) {
+		                return ele.addEventListener(type, callback, bubble);
+		            }
+		        } else if (window.attachEvent)  {
+		            EventHandler = function(ele, type, callback, bubble) {
+		                return ele.attachEvent('on' + type, callback);
+		            }
+		        }else {
+		        	EventHandler = function(ele, type, callback, bubble) {
+		            	ele['on' + type] = errorReport;
+		        	}
+		        }
+		    };
+
+			if (typeof document.body.style.webkitTransform === 'string') {
+				TRANSFORM = 'webkitTransform';
+				transform_pro = '-webkit-transform';
+			}
+			if (typeof document.body.style.webkitTransition === 'string') {
+				TRANSITION = 'webkitTransition';
+			}
+
+			EventHandler(after, 'webkitTransitionEnd', function() {
+				after.style[TRANSFORM] = 'scale(3, 3)';
+			});
+			EventHandler(after, 'transitionend', function() {
+				after.style[TRANSFORM] = 'scale(3, 3)';
+			});
+			setTimeout(function() {
+				after.style[TRANSITION] = transform_pro + ' 1s ease-in';
+				after.style[TRANSFORM] = 'scale3d(3, 3, 1)';
+			}, 1000);
+		})();
+	</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+	<title>CSS3 animation事件</title>
+	<style>
+		@-webkit-keyframes bounce {
+			0% {
+				top: 10px;
+				left: 10px;
+			}
+			50% {
+				top: 50px;
+				left: 50px;
+			}
+			100% {
+				top: 150px;
+				left: 150px;
+			}
+		}
+		@keyframes bounce {
+			0% {
+				top: 10px;
+				left: 10px;
+			}
+			50% {
+				top: 50px;
+				left: 50px;
+			}
+			100% {
+				top: 150px;
+				left: 150px;
+			}
+		}
+		.box {
+			position: fixed;
+			top: 10px;
+			left: 10px;
+			z-index: 999;
+			width: 60px;
+			height: 60px;
+			background-color: red;
+			opacity: 1;
+			border: 1px solid #ccc;
+			border-radius: 30px;
+			-webkit-animation: bounce 2s linear 2 1s alternate;
+			animation: bounce 2s linear 2 1s alternate;
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+	<script>
+		var ball = document.querySelector('.box');
+		//事件注册兼容
+		window.EventHandler = function () {
+	        if (window.addEventListener) {
+	            EventHandler = function(ele, type, callback, bubble) {
+	                return ele.addEventListener(type, callback, bubble);
+	            }
+	        } else if (window.attachEvent)  {
+	            EventHandler = function(ele, type, callback, bubble) {
+	                return ele.attachEvent('on' + type, callback);
+	            }
+	        }else {
+	        	EventHandler = function(ele, type, callback, bubble) {
+	            	ele['on' + type] = errorReport;
+	        	}
+	        }
+	    };
+
+	    function myStartFunction() {
+		    ball.innerHTML = "start";
+		    ball.style.backgroundColor = "yellow";
+		}
+
+		function myIterationFunction() {
+		    ball.innerHTML = "iteration";
+		    ball.style.backgroundColor = "lightblue";
+		}
+
+		function myEndFunction() {
+		    ball.innerHTML = "end";
+		    ball.style.backgroundColor = "lightgray";
+		}
+
+	    EventHandler(ball, "webkitAnimationStart", myStartFunction);
+		EventHandler(ball, "webkitAnimationIteration", myIterationFunction);
+		EventHandler(ball, "webkitAnimationEnd", myEndFunction);
+		EventHandler(ball, "animationstart", myStartFunction);
+		EventHandler(ball, "animationiteration", myIterationFunction);
+		EventHandler(ball, "animationend", myEndFunction);
+
+	</script>
+</body>
+</html>
