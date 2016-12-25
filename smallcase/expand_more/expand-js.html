@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0">
+    <title>展开更多</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-size: 18px;
+            line-height: 1.4;
+        }
+        .wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        p {
+            width: 280px;
+            word-break: break-word; /* 处理英文截断换行 */
+        }
+        .text-slice {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+        }
+        .expand-more {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            color: blue;
+        }
+        .expand-more-2 {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            color: red;
+        }
+        .fake-content {
+            position: absolute;
+            z-index: -1; /* 隐藏 */
+            opacity: 0; /* 透明 */
+            pointer-events: none; /*元素不可交互/点击*/
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <p class="content text-slice">
+            郑成月的经历就是一部中国社会历史！很有价值的！不管是社会研究还是真心纠错，都是非常好的案例。历史就是用各种个人经历写成的，那样就很有实在感。作家们没有素材？都在书写歌功颂德之文？想要把自己的作品流传后世，这就是最好的素材
+        </p>
+        <p class="fake-content text-slice">
+            郑成月的经历就是一部中国社会历史！很有价值的！不管是社会研究还是真心纠错，都是非常好的案例。历史就是用各种个人经历写成的，那样就很有实在感。作家们没有素材？都在书写歌功颂德之文？想要把自己的作品流传后世，这就是最好的素材
+        </p>
+        <label class="expand-more">更多</label>     <label class="expand-more-2">更多</label>
+    </div>
+    <script src="../lib/jquery.min.js"></script>
+    <script>
+        $(function() {
+            var $para = $('.content');
+            var $fakePara = $('.fake-content');
+            var $more = $('.expand-more');
+            var $more2 = $('.expand-more-2');
+
+            processShowExpandBtn();
+            $more.on('click', function() {
+                $para.toggleClass('text-slice');
+                if ($para.hasClass('text-slice')) {
+                    $more.html('更多');
+                } else {
+                    $more.html('收起');
+                }
+            });
+            $more2.on('click', function() {
+                $para.toggleClass('text-slice');
+                if ($para.hasClass('text-slice')) {
+                    $more2.html('更多');
+                } else {
+                    $more2.html('收起');
+                }
+            });
+
+            // 文本是否发生截断
+            function hasTextSliced($ele) {
+                var initHeight = $ele.height();
+                var height;
+                $ele.removeClass('text-slice');
+                height = $ele.height();
+
+                if (initHeight < height) {
+                    // 发生截断
+                    return true;
+                }
+
+                return false;
+            }
+
+            // 根据文本是否发生截断处理更多按钮是否需要展示
+            function processShowExpandBtn() {
+                if (!hasTextSliced($fakePara)) {
+                    $more2.hide();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
