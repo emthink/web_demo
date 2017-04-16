@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport", content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
+	<title>Document</title>
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		html, body {
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			box-sizing: border-box;
+		}
+		.wrapper {
+			margin: 0 auto;
+			padding-top: 100px;
+			width: 240px;
+			height: 200px;
+		}
+		.wrapper img {
+			width: 100%;
+			transform-origin: 0 0;
+			-webkit-transform-origin: 0 0;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<img class="scale" src="http://blog.codingplayboy.com/wp-content/uploads/2017/04/git-rebase-onto.png">
+	</div>
+	<script type="text/javascript">
+		var wrapper = document.querySelector('.wrapper');
+		var element = document.querySelector('.scale');
+		var vendors;
+		var distance = {};
+		var origin;
+		var scale = 1;
+		var isCanScale = false;
+		function handleTouch(e) {
+			e.preventDefault();
+			switch(e.type) {
+				case 'touchstart':
+					if (e.touches.length > 1) {
+	 					distance.start = getDistance({
+	 						x: e.touches[0].screenX, 
+	 						y: e.touches[0].screenY  
+						}, {
+	 						x: e.touches[1].screenX, 
+	 						y: e.touches[1].screenY
+	 					});
+	 				}
+					break;
+				case 'touchmove':
+					if (e.touches.length === 2) {
+	 					origin = getOrigin({
+							x: event.touches[0].pageX, 
+							y: event.touches[0].pageY
+						}, {
+							x: event.touches[1].pageX, 
+							y: event.touches[1].pageY
+						});
+						distance.stop = getDistance({
+	 						x: e.touches[0].screenX, 
+	 						y: e.touches[0].screenY  
+						}, {
+	 						x: e.touches[1].screenX, 
+	 						y: e.touches[1].screenY
+	 					});
+	 					scale = distance.stop / distance.start;
+	 					isCanScale = true;
+	 					setScaleAnimation(scale, true);
+	 				}
+					break;
+				case 'touchend':
+					scale = 1;
+					setScaleAnimation(scale);
+					break;
+				case 'touchcancel':
+					scale = 1;
+					setScaleAnimation(scale);
+					break;
+				default:;
+			}
+		}
+		function vendor() {
+			var TRANSITION = 'transition';
+			var TRANSITION_END = 'transitionend';
+			var TRANSFORM = 'transform';
+			var TRANSFORM_PROPERTY = 'transform';
+			var TRANSITION_PROPERTY = 'transition';
+			
+			if (typeof document.body.style.webkitTransform !== undefined) {
+				TRANSFORM = 'webkitTransform';
+				TRANSITION = 'webkitTransition';
+				TRANSITION_END = 'webkitTransitionEnd';
+				TRANSFORM_PROPERTY = '-webkit-transform';
+				TRANSITION_PROPERTY = '-webkit-transition';
+			}
+
+
+			return {
+				TRANSFORM: TRANSFORM,
+				TRANSITION: TRANSITION,
+				TRANSITION_END: TRANSITION_END,
+				TRANSFORM_PROPERTY: TRANSFORM_PROPERTY,
+				TRANSITION_PROPERTY: TRANSITION_PROPERTY
+			};
+		}
+		function getOrigin(first, second) {
+			return {
+				x: (first.x + second.x) / 2,
+				y: (first.y + second.y) / 2
+			};
+		}
+		function getDistance(start, stop) {
+			return Math.sqrt(Math.pow((stop.x - start.x), 2) + Math.pow((stop.y - start.y), 2));
+		}
+		function setScaleAnimation(scale, animation) {
+			var transition_animation = '';
+			var x, y;
+
+			if (!isCanScale) {
+				return;
+			}
+
+			isCanScale = false;
+			if (animation) {
+				transition_animation = 'none';
+			} else {
+				transition_animation = vendors.TRANSFORM_PROPERTY + ' 0.3s ease-out';
+			}
+			element.style[vendors.TRANSITION] = transition_animation;
+			x = origin.x + (-origin.x) * scale;
+			y = origin.y + (-origin.y) * scale;
+			
+			element.style[vendors.TRANSFORM] = 'matrix(' + scale + ', 0, 0, ' + scale + ', ' + x + ', ' + y +  ')';
+		}
+
+		vendors = vendor();
+		wrapper.addEventListener('touchstart', handleTouch);
+		wrapper.addEventListener('touchmove', handleTouch);
+		wrapper.addEventListener('touchend', handleTouch);
+		wrapper.addEventListener('touchcancel', handleTouch);
+	</script>
+</body>
+</html>
