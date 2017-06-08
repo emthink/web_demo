@@ -9,6 +9,10 @@
     <h2 class="title" data-on="title"></h2>
     <div class="content" data-on="content"></div>
     <div class="count" data-on="count"></div>
+    <div>
+        请输入内容：
+        <input type="text" class="content-input" placeholder="请输入内容">
+    </div>
     <button class="add" onclick="">加1</button>
 
     <script type="text/javascript">
@@ -19,7 +23,7 @@
                 content: '使用属性描述器实现数据视图绑定',
                 count: 0
             };
-            var attr = 'data-on'; // 约定好的语法，声明在DOM中绑定对象属性
+            var attr = 'data-on'; // 约定好的语法，声明DOM绑定对象属性
 
             // 使用发布/订阅模式，集中管理监控和触发回调事件
             var Observer = {
@@ -91,6 +95,9 @@
                 // 辅助测试实例
                 document.querySelector('.add').addEventListener('click', function(e) {
                     data.count += 1;
+                });
+                document.querySelector('.content-input').addEventListener('input', function(e) {
+                    data.content = e.target.value;
                 });
 
             }
