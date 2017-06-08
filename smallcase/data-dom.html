@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0,maximum-scale=1.0">
+    <title>数据视图单向绑定</title>
+</head>
+<body>
+    <h2 class="title" data-on="title"></h2>
+    <div class="content" data-on="content"></div>
+    <div class="count" data-on="count"></div>
+    <button class="add" onclick="">加1</button>
+
+    <script type="text/javascript">
+        (function() {
+            // 数据
+            window.data = {
+                title: '数据视图单向绑定',
+                content: '使用属性描述器实现数据视图绑定',
+                count: 0
+            };
+            var attr = 'data-on'; // 约定好的语法，声明在DOM中绑定对象属性
+
+            // 使用发布/订阅模式，集中管理监控和触发回调事件
+            var Observer = {
+                watchers: {},
+                subscribe: function(key) {
+                    var el = document.querySelector('[' + attr + '="'+ key + '"]');
+
+                    // demo
+                    var cb = function react(val) {
+                        el.innerHTML = val;
+                    }
+
+                    if (this.watchers[key]) {
+                        this.watchers[key].push(cb);
+                    } else {
+                        this.watchers[key] = [].concat(cb);
+                    }
+                },
+                emit: function(key, val) {
+                    var len = this.watchers[key] && this.watchers[key].length;
+
+                    if (len && len > 0) {
+                        for(var i = 0; i < len; i++) {
+                           this.watchers[key][i](val);
+                        }
+                    }
+                }
+            };
+
+            // 为对象中每一个属性设置描述对象，尤其是存取器函数
+            function defineDescriptors(obj) {
+                for (var key in obj) {
+                    // 遍历属性
+                    defineDescriptor(obj, key, obj[key]);
+                }
+
+                // 为特定属性设置描述对象
+                function defineDescriptor(obj, key, val) {
+                    Object.defineProperty(obj, key, {
+                        enumerable: true,
+                        configurable: true,
+                        get: function() {
+                            var value = val;
+                            return value;
+                        },
+                        set: function(newVal) {
+                            if (newVal !== val) {
+                                // 值发生变更才执行
+                                val = newVal;
+                                Observer.emit(key, newVal); // 触发更新DOM
+                            }
+                        }
+                    });
+                    Observer.subscribe(key); // 为该属性注册回调
+                }
+            }
+
+            // 初始化demo
+            function init() {
+                defineDescriptors(data); // 处理数据对象
+                var eles = document.querySelectorAll('[' + attr + ']');
+
+                // 初始遍历DOM展示数据
+                // 其实可以将该操作放到属性描述对象的get方法内，则在初始化时只需要对属性遍历访问即可
+                for (var i = 0, len = eles.length; i < len; i++) {
+                    eles[i].innerHTML = data[eles[i].getAttribute(attr)];
+                }
+
+                // 辅助测试实例
+                document.querySelector('.add').addEventListener('click', function(e) {
+                    data.count += 1;
+                });
+
+            }
+            init();
+        })();
+    </script>
+</body>
+</html>
